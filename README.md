@@ -24,13 +24,40 @@ CleOS follows a microkernel architecture:
 
 ## Building
 
-> Build instructions will be added as the toolchain is established.
+### Prerequisites
 
-Dependencies will include:
-- Rust (nightly)
-- seL4 build toolchain (CMake, ninja, cross-compiler)
-- QEMU (for emulation/testing)
+- Docker
+- QEMU (`brew install qemu` on macOS, only needed for local `make run` outside Docker)
+
+### First-time setup
+
+Build the Docker image containing the seL4 kernel, cross-compiler, and Rust kernel loader. This takes ~10-15 minutes on first run:
+
+```bash
+make -C docker build
+```
+
+### Start the development container
+
+```bash
+make -C docker run
+make -C docker exec
+```
+
+### Inside the container
+
+```bash
+make build   # build kernel + root task + bootable image
+make run     # boot on QEMU
+make clean   # remove build artifacts
+```
+
+### Stopping the container
+
+```bash
+make -C docker rm-container
+```
 
 ## Status
 
-Early bootstrap phase. The project structure and build system are being established.
+Early bootstrap phase. The build system is established and the root task boots on QEMU (aarch64 virt machine).
